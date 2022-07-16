@@ -1,15 +1,17 @@
-#/bin/bash
+#!/bin/bash
 # from SO: https://stackoverflow.com/a/54261882/317605 (by https://stackoverflow.com/users/8207842/dols3m)
 function prompt_for_multiselect {
 
     # little helpers for terminal print control and key input
     ESC=$( printf "\033")
+
     cursor_blink_on()   { printf "$ESC[?25h"; }
     cursor_blink_off()  { printf "$ESC[?25l"; }
     cursor_to()         { printf "$ESC[$1;${2:-1}H"; }
     print_inactive()    { printf "$2   $1 "; }
     print_active()      { printf "$2  $ESC[7m $1 $ESC[27m"; }
     get_cursor_row()    { IFS=';' read -sdR -p $'\E[6n' ROW COL; echo ${ROW#*[}; }
+
     key_input()         {
       local key
       IFS= read -rsn1 key 2>/dev/null >&2
@@ -21,6 +23,7 @@ function prompt_for_multiselect {
         if [[ $key = [B ]]; then echo down;  fi;
       fi 
     }
+
     toggle_option()    {
       local arr_name=$1
       eval "local arr=(\"\${${arr_name}[@]}\")"
@@ -63,9 +66,9 @@ function prompt_for_multiselect {
         # print options by overwriting the last lines
         local idx=0
         for option in "${options[@]}"; do
-            local prefix="[ ]"
+            local prefix="   [ ]"
             if [[ ${selected[idx]} == true ]]; then
-              prefix="[x]"
+              prefix="   [x]"
             fi
 
             cursor_to $(($startrow + $idx))
@@ -119,9 +122,13 @@ function delete_from_array {
 
 declare -a ALL_SPRING_PROFILES=(aws azure cosmosdb dynamodb servicebus kafka sqs)
 
+printf "\n"
+
 #####################
 
 unset OPTIONS_STRING OPTIONS_SELECTED_STRING 
+
+printf "1. Please select the Cloud required:\n\n"
 
 OPTIONS_VALUES=("azure" "aws")
 OPTIONS_LABELS=("Azure Cloud" "AWS Cloud")
@@ -146,6 +153,8 @@ done
 
 unset OPTIONS_STRING OPTIONS_SELECTED_STRING 
 
+printf "2. Please select the Persistence required:\n\n"
+
 OPTIONS_VALUES=("cosmosdb" "dynamodb")
 OPTIONS_LABELS=("CosmosDB" "DynamoDB")
 OPTIONS_SELECTED=("true" "")
@@ -168,6 +177,8 @@ done
 
 unset OPTIONS_STRING OPTIONS_SELECTED_STRING
 
+printf "3. Please select the Message Handler required:\n\n"
+
 OPTIONS_VALUES=("servicebus" "kafka" "sqs")
 OPTIONS_LABELS=("Azure ServiceBus" "AWS Kafka" "AWS SQS")
 OPTIONS_SELECTED=("true" "" "")
@@ -188,20 +199,20 @@ done
 
 #####################
 
-echo "You have selected these options for your project:\n"
+printf "You have selected these options for your project:\n\n"
 for i in "${CHECKED[@]}";
 do
-   echo "   * $i"
+   printf "   * %s\n" "${i}"
 done
 
-echo "\nPress ENTER to accept or CTRL-C to quit"
-read ACCEPT
+printf "\nPress ENTER to accept or CTRL-C to quit"
+read -r
 
 #####################
 
 cp app/pom.xml app/pom.template.xml
 
-echo ""
+printf ""
 #echo "DELETE THESE..."
 for i in "${ALL_SPRING_PROFILES[@]}";
 do
