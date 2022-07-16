@@ -202,10 +202,10 @@ read ACCEPT
 cp app/pom.xml app/pom.template.xml
 
 echo ""
-echo "DELETE THESE..."
+#echo "DELETE THESE..."
 for i in "${ALL_SPRING_PROFILES[@]}";
 do
-   echo "$i"
+   #echo "$i"
 
    xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
       --delete ".//ns:project/ns:properties/ns:${i}.profile.name" \
@@ -214,12 +214,14 @@ do
 
    mv app/pom.template.xml.work app/pom.template.xml
 
+   sed -i "" "/- @${i}.profile.name@/d" app/src/main/resources/application.yml
+
 done
 
-echo "KEEP THESE..."
+#echo "KEEP THESE..."
 for i in "${CHECKED[@]}";
 do
-   echo "$i"
+   #echo "$i"
 
    xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
       --move ".//ns:project/ns:profiles/ns:profile[ns:id=\"${i}\"]/ns:dependencies" ".//ns:project/ns:dependencies" \
@@ -234,4 +236,8 @@ do
 
    mv app/pom.template.xml.work app/pom.template.xml
 
+   sed -i "" "s/- @${i}.profile.name@/- ${i}/g" app/src/main/resources/application.yml
+
 done
+
+cp app/pom.template.xml app/pom.xml
