@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    include:
+      - @aws.profile.name@
+      - @azure.profile.name@
+      - @cosmosdb.profile.name@
+      - @dynamodb.profile.name@
+      - @servicebus.profile.name@
+      - @kafka.profile.name@
+      - @sqs.profile.name@
+

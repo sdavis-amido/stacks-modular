@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.6.9</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>com.amido.stacksdemo</groupId>
+  <artifactId>app</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>app</name>
+
+  <description>Demo project for Spring Boot</description>
+
+  <properties>
+    <java.version>11</java.version>
+
+    <aws.profile.name>no-aws</aws.profile.name>
+    <azure.profile.name>no-azure</azure.profile.name>
+    <cosmosdb.profile.name>no-cosmosdb</cosmosdb.profile.name>
+    <dynamodb.profile.name>no-dynamodb</dynamodb.profile.name>
+    <servicebus.profile.name>no-servicebus</servicebus.profile.name>
+    <kafka.profile.name>no-kafka</kafka.profile.name>
+    <sqs.profile.name>no-sqs</sqs.profile.name>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.amido.stacksdemo</groupId>
+      <artifactId>commons</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
+  </dependencies>
+
+  <profiles>
+
+    <profile>
+      <id>aws</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <aws.profile.name>aws</aws.profile.name>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.amido.stacksdemo</groupId>
+          <artifactId>aws</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>azure</id>
+      <properties>
+        <azure.profile.name>azure</azure.profile.name>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.amido.stacksdemo</groupId>
+          <artifactId>azure</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+
+    </profile>
+
+    <profile>
+      <id>cosmosdb</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <cosmosdb.profile.name>cosmosdb</cosmosdb.profile.name>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.amido.stacksdemo</groupId>
+          <artifactId>cosmos</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>dynamodb</id>
+      <properties>
+        <dynamodb.profile.name>dynamodb</dynamodb.profile.name>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.amido.stacksdemo</groupId>
+          <artifactId>dynamodb</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>servicebus</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <servicebus.profile.name>servicebus</servicebus.profile.name>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.amido.stacksdemo</groupId>
+          <artifactId>servicebus</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>kafka</id>
+      <properties>
+        <kafka.profile.name>kafka</kafka.profile.name>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.amido.stacksdemo</groupId>
+          <artifactId>kafka</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>sqs</id>
+      <properties>
+        <sqs.profile.name>sqs</sqs.profile.name>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.amido.stacksdemo</groupId>
+          <artifactId>sqs</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+  </profiles>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

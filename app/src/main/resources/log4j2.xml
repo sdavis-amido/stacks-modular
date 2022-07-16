@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Properties>
+    <Property name="applicationName">${root.context.path}</Property>
+    <Property name="environment">$${env:SPRING_PROFILE}</Property>
+    <Property name="sleuthInfo">%X{X-B3-TraceId},%X{X-B3-SpanId}</Property>
+  </Properties>
+
+  <Appenders>
+    <Console name="console" target="SYSTEM_OUT">
+      <PatternLayout
+        pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${sys:PID} --- [%10.10t] [${sleuthInfo}] %-40.40logger{1.} : %m%n%wEx"/>
+    </Console>
+  </Appenders>
+
+  <Loggers>
+    <logger name="com.amido" level="debug"/>
+
+    <logger name="com.zaxxer" level="error"/>
+
+    <logger name="org.springframework" level="error"/>
+    <logger name="org.springframework.http" level="error"/>
+    <logger name="org.springframework.security" level="info"/>
+    <logger name="org.springframework.web" level="error"/>
+    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="error"/>
+    <logger name="org.springframework.web.servlet.mvc.method.annotation" level="debug"/>
+    <logger name="org.springframework.boot.web.embedded.tomcat.TomcatWebServer" level="info"/>
+    <logger name="com.fasterxml" level="error"/>
+    <logger name="org.apache.commons.dbcp" level="error"/>
+
+    <!-- P6Spy -->
+    <logger name="p6spy" level="info"/>
+
+    <!-- Log4Jdbc / Issue with MySQL Dat Format in logs -->
+    <!--
+    <logger name="jdbc.sqltiming" level="trace"/>
+    -->
+
+    <Root level="info">
+      <AppenderRef ref="console"/>
+    </Root>
+  </Loggers>
+</Configuration>
