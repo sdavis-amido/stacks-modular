@@ -224,7 +224,7 @@ do
    #echo "$i"
 
    xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
-      --move ".//ns:project/ns:profiles/ns:profile[ns:id=\"${i}\"]/ns:dependencies" ".//ns:project/ns:dependencies" \
+      --move ".//ns:project/ns:profiles/ns:profile[ns:id=\"${i}\"]/ns:dependencies/*" ".//ns:project/ns:dependencies" \
       app/pom.template.xml > app/pom.template.xml.work
  
    mv app/pom.template.xml.work app/pom.template.xml
