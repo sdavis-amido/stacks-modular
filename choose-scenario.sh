@@ -117,7 +117,7 @@ function delete_from_array {
 #####################
 #####################
 
-declare -a ALL_SPRING_PROFILES=(aws azure cosmos dynamodb servicebus kafka sqs)
+declare -a ALL_SPRING_PROFILES=(aws azure cosmosdb dynamodb servicebus kafka sqs)
 
 #####################
 
@@ -146,7 +146,7 @@ done
 
 unset OPTIONS_STRING OPTIONS_SELECTED_STRING 
 
-OPTIONS_VALUES=("cosmos" "dynamodb")
+OPTIONS_VALUES=("cosmosdb" "dynamodb")
 OPTIONS_LABELS=("CosmosDB" "DynamoDB")
 OPTIONS_SELECTED=("true" "")
 
@@ -199,15 +199,39 @@ read ACCEPT
 
 #####################
 
+cp app/pom.xml app/pom.template.xml
+
 echo ""
 echo "DELETE THESE..."
 for i in "${ALL_SPRING_PROFILES[@]}";
-      do
-          echo "$i"
-      done
+do
+   echo "$i"
+
+   xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
+      --delete ".//ns:project/ns:properties/ns:${i}.profile.name" \
+      --delete ".//ns:project/ns:profiles/ns:profile[ns:id=\"${i}\"]" \
+      app/pom.template.xml > app/pom.template.xml.work
+
+   mv app/pom.template.xml.work app/pom.template.xml
+
+done
 
 echo "KEEP THESE..."
 for i in "${CHECKED[@]}";
-      do
-          echo "$i"
-      done
+do
+   echo "$i"
+
+   xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
+      --move ".//ns:project/ns:profiles/ns:profile[ns:id=\"${i}\"]/ns:dependencies" ".//ns:project/ns:dependencies" \
+      app/pom.template.xml > app/pom.template.xml.work
+ 
+   mv app/pom.template.xml.work app/pom.template.xml
+
+   xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
+      --delete ".//ns:project/ns:properties/ns:${i}.profile.name" \
+      --delete ".//ns:project/ns:profiles/ns:profile[ns:id=\"${i}\"]" \
+      app/pom.template.xml > app/pom.template.xml.work
+
+   mv app/pom.template.xml.work app/pom.template.xml
+
+done
