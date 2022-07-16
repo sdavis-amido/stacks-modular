@@ -96,11 +96,36 @@ function prompt_for_multiselect {
     eval $retval='("${selected[@]}")'
 }
 
-# Usage Example
+function delete_from_array {
 
-OPTIONS_VALUES=("azure" "aws" "cosmos" "dynamodb" "servicebus" "kafka" "sqs")
-OPTIONS_LABELS=("Azure Cloud" "AWS Cloud" "CosmosDB" "DynamoDB" "Azure ServiceBus" "Kafka" "SQS")
-OPTIONS_SELECTED=("true" "" "true" "" "true" "" "")
+    local retval=$1
+    delete="$2"
+    array=("${@:3}")
+
+    for target in "${delete[@]}"; do
+      for i in "${!array[@]}"; do
+        if [[ ${array[i]} = $target ]]; then
+          unset 'array[i]'
+        fi
+      done
+    done
+
+    eval $retval='("${array[@]}")'
+
+}
+
+#####################
+#####################
+
+declare -a ALL_SPRING_PROFILES=(aws azure cosmos dynamodb servicebus kafka sqs)
+
+#####################
+
+unset OPTIONS_STRING OPTIONS_SELECTED_STRING 
+
+OPTIONS_VALUES=("azure" "aws")
+OPTIONS_LABELS=("Azure Cloud" "AWS Cloud")
+OPTIONS_SELECTED=("true" "")
 
 for i in "${!OPTIONS_VALUES[@]}"; do
 	OPTIONS_STRING+="${OPTIONS_VALUES[$i]} (${OPTIONS_LABELS[$i]});"
@@ -112,6 +137,77 @@ prompt_for_multiselect SELECTED "$OPTIONS_STRING" "$OPTIONS_SELECTED_STRING"
 for i in "${!SELECTED[@]}"; do
 	if [ "${SELECTED[$i]}" == "true" ]; then
 		CHECKED+=("${OPTIONS_VALUES[$i]}")
+    delete_from_array ALL_SPRING_PROFILES "${OPTIONS_VALUES[$i]}" "${ALL_SPRING_PROFILES[@]}"
 	fi
 done
-echo "${CHECKED[@]}"
+# echo "${CHECKED[@]}"
+
+#####################
+
+unset OPTIONS_STRING OPTIONS_SELECTED_STRING 
+
+OPTIONS_VALUES=("cosmos" "dynamodb")
+OPTIONS_LABELS=("CosmosDB" "DynamoDB")
+OPTIONS_SELECTED=("true" "")
+
+for i in "${!OPTIONS_VALUES[@]}"; do
+	OPTIONS_STRING+="${OPTIONS_VALUES[$i]} (${OPTIONS_LABELS[$i]});"
+	OPTIONS_SELECTED_STRING+="${OPTIONS_SELECTED[$i]};"
+done
+
+prompt_for_multiselect SELECTED "$OPTIONS_STRING" "$OPTIONS_SELECTED_STRING"
+
+for i in "${!SELECTED[@]}"; do
+	if [ "${SELECTED[$i]}" == "true" ]; then
+		CHECKED+=("${OPTIONS_VALUES[$i]}")
+    delete_from_array ALL_SPRING_PROFILES "${OPTIONS_VALUES[$i]}" "${ALL_SPRING_PROFILES[@]}"
+	fi
+done
+
+#####################
+
+unset OPTIONS_STRING OPTIONS_SELECTED_STRING
+
+OPTIONS_VALUES=("servicebus" "kafka" "sqs")
+OPTIONS_LABELS=("Azure ServiceBus" "AWS Kafka" "AWS SQS")
+OPTIONS_SELECTED=("true" "" "")
+
+for i in "${!OPTIONS_VALUES[@]}"; do
+	OPTIONS_STRING+="${OPTIONS_VALUES[$i]} (${OPTIONS_LABELS[$i]});"
+	OPTIONS_SELECTED_STRING+="${OPTIONS_SELECTED[$i]};"
+done
+
+prompt_for_multiselect SELECTED "$OPTIONS_STRING" "$OPTIONS_SELECTED_STRING"
+
+for i in "${!SELECTED[@]}"; do
+	if [ "${SELECTED[$i]}" == "true" ]; then
+		CHECKED+=("${OPTIONS_VALUES[$i]}")
+    delete_from_array ALL_SPRING_PROFILES "${OPTIONS_VALUES[$i]}" "${ALL_SPRING_PROFILES[@]}"
+	fi
+done
+
+#####################
+
+echo "You have selected these options for your project:\n"
+for i in "${CHECKED[@]}";
+do
+   echo "   * $i"
+done
+
+echo "\nPress ENTER to accept or CTRL-C to quit"
+read ACCEPT
+
+#####################
+
+echo ""
+echo "DELETE THESE..."
+for i in "${ALL_SPRING_PROFILES[@]}";
+      do
+          echo "$i"
+      done
+
+echo "KEEP THESE..."
+for i in "${CHECKED[@]}";
+      do
+          echo "$i"
+      done
