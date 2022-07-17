@@ -114,7 +114,7 @@
       <dependencies>
         <dependency>
           <groupId>com.amido.stacksdemo</groupId>
-          <artifactId>cosmos</artifactId>
+          <artifactId>cosmosdb</artifactId>
           <version>0.0.1-SNAPSHOT</version>
         </dependency>
       </dependencies>

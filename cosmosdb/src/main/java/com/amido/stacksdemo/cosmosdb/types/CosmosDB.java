@@ -1,4 +1,4 @@
-package com.amido.stacksdemo.cosmos.types;
+package com.amido.stacksdemo.cosmosdb.types;
 
 import com.amido.stacksdemo.commons.types.IPersistData;
 import javax.annotation.PostConstruct;

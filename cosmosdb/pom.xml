@@ -10,9 +10,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.amido.stacksdemo</groupId>
-  <artifactId>cosmos</artifactId>
+  <artifactId>cosmosdb</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>cosmos</name>
+  <name>cosmosdb</name>
   <description>Demo project for Spring Boot</description>
   <properties>
     <java.version>11</java.version>

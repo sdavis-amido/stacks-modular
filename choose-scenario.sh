@@ -227,6 +227,8 @@ do
 
    sed -i "" "/- @${i}.profile.name@/d" app/src/main/resources/application.yml
 
+   rm -f "app/src/main/resources/application-${i}.yml"
+
 done
 
 #echo "KEEP THESE..."
