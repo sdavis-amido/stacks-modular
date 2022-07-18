@@ -10,7 +10,16 @@ a fixed-project.
 
 # Executing scenarios
 
-## No profile selected
+Prior to running tests it is necessary to build install the library code to your local Maven repository. This
+can be achieved by running the supplied bash script: -
+
+```bash
+$ sh build-libs.sh
+```
+
+A number of sample executions are supplied below to show.
+
+## No Maven Build Profile selected
 
 No profiles are selected, so this will error as no `IProvideCloud` interface implementing bean can 
 be found by the Spring context at startup: -
@@ -33,7 +42,7 @@ The injection point has the following annotations:
 	- @org.springframework.beans.factory.annotation.Autowired(required=true)
 ```
 
-## Selecting Valid Options
+## Selecting Valid Maven Build Profile Options
 
 This will work as all required interfaces are provided by implementing beans: -
 
@@ -50,7 +59,7 @@ $ mvn clean spring-boot:run -P aws,cosmosdb,kafka
 2022-07-18 14:49:40.276 DEBUG 95409 --- [      main] [,] c.a.s.c.t.CosmosDB                       : ... COSMOSDB Loaded
 ```
 
-## Selecting Multiple Overlapping Options
+## Selecting Multiple Overlapping Maven Build Profile Options
 
 This will error as all multiple interfaces are provided by implementing beans: -
 
@@ -72,7 +81,7 @@ Field dataPersister in com.amido.stacksdemo.app.controller.TestController requir
 
 ```
 
-# Configuring for a Project
+# Configuring (hard-coding) for a Project
 
 This is to cater for scenarios where a project wants to take the current codebase and "hard code" it
 so that only the options they want to use are provided.
