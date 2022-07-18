@@ -115,3 +115,31 @@ You have selected these options for your project:
 
 Press ENTER to accept or CTRL-C to quit
 ```
+
+Given that the `pom.xml` now contains no profiles, it is not necessary to provide the `mvn -P` flag. So
+starting the application using the set of commands above that originally failed will now work. The
+features selected are now 'locked-in' and cannot be altered through configuration.
+
+```bash
+$ cd app
+$ mvn clean spring-boot:run
+```
+
+```
+2022-07-18 15:02:24.273  INFO 99686 --- [      main] [,] c.a.s.a.AppApplication                   : The following 3 profiles are active: "aws", "dynamodb", "sqs"
+2022-07-18 15:02:24.882  INFO 99686 --- [      main] [,] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 8080 (http)
+2022-07-18 15:02:24.890  INFO 99686 --- [      main] [,] o.a.c.h.Http11NioProtocol                : Initializing ProtocolHandler ["http-nio-8080"]
+2022-07-18 15:02:24.890  INFO 99686 --- [      main] [,] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2022-07-18 15:02:24.891  INFO 99686 --- [      main] [,] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-07-18 15:02:24.968  INFO 99686 --- [      main] [,] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2022-07-18 15:02:24.996 DEBUG 99686 --- [      main] [,] c.a.s.a.c.DebuggingConfig                : CONFIGURING APP...
+2022-07-18 15:02:25.000 DEBUG 99686 --- [      main] [,] c.a.s.a.t.AWS                            : ... AWS Loaded
+2022-07-18 15:02:25.002 DEBUG 99686 --- [      main] [,] c.a.s.s.t.SQS                            : ... SQS Loaded
+2022-07-18 15:02:25.002 DEBUG 99686 --- [      main] [,] c.a.s.d.t.DynamoDB                       : ... DYNAMODB Loaded
+```
+
+Undo (or stash) the changes using your Git client to revert the code back to the original project e.g.
+
+```bash
+$ git reset HEAD~1
+```
