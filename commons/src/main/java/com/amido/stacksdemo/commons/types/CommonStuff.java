@@ -1,20 +1,16 @@
-package com.amido.stacksdemo.aws.types;
+package com.amido.stacksdemo.commons.types;
 
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
-public class AWS {
-
-  public void usingAWS() {
-    log.debug("USING AWS");
-  }
+@Slf4j
+public class CommonStuff {
 
   @PostConstruct
   public void loaded() {
 
-    log.debug("... AWS Loaded");
+    log.debug("... COMMON Loaded");
   }
 }

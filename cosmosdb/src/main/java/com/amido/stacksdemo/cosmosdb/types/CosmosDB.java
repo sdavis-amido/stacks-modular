@@ -1,13 +1,16 @@
 package com.amido.stacksdemo.cosmosdb.types;
 
-import com.amido.stacksdemo.commons.types.IPersistData;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class CosmosDB implements IPersistData {
+public class CosmosDB {
+
+  public void usingCosmosDB() {
+    log.debug("PERSIST USING COSMOSDB");
+  }
 
   @PostConstruct
   public void loaded() {

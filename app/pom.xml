@@ -22,6 +22,9 @@
   <properties>
     <java.version>11</java.version>
 
+    <fmt-maven-plugin.version>2.13</fmt-maven-plugin.version>
+    <manifold-version>2022.1.18</manifold-version>
+
     <aws.profile.name>no-aws</aws.profile.name>
     <azure.profile.name>no-azure</azure.profile.name>
     <cosmosdb.profile.name>no-cosmosdb</cosmosdb.profile.name>
@@ -73,11 +76,9 @@
 
     <profile>
       <id>aws</id>
-      <!--
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      -->
       <properties>
         <aws.profile.name>aws</aws.profile.name>
       </properties>
@@ -92,6 +93,9 @@
 
     <profile>
       <id>azure</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <properties>
         <azure.profile.name>azure</azure.profile.name>
       </properties>
@@ -107,11 +111,9 @@
 
     <profile>
       <id>cosmosdb</id>
-      <!--
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      -->
       <properties>
         <cosmosdb.profile.name>cosmosdb</cosmosdb.profile.name>
       </properties>
@@ -126,6 +128,9 @@
 
     <profile>
       <id>dynamodb</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <properties>
         <dynamodb.profile.name>dynamodb</dynamodb.profile.name>
       </properties>
@@ -140,11 +145,9 @@
 
     <profile>
       <id>servicebus</id>
-      <!--
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      -->
       <properties>
         <servicebus.profile.name>servicebus</servicebus.profile.name>
       </properties>
@@ -159,6 +162,9 @@
 
     <profile>
       <id>kafka</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <properties>
         <kafka.profile.name>kafka</kafka.profile.name>
       </properties>
@@ -173,6 +179,9 @@
 
     <profile>
       <id>sqs</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <properties>
         <sqs.profile.name>sqs</sqs.profile.name>
       </properties>
@@ -189,6 +198,40 @@
 
   <build>
     <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>11</source>
+          <target>11</target>
+          <encoding>UTF-8</encoding>
+          <compilerArgs>
+            <!-- Configure manifold plugin -->
+            <arg>-Xplugin:Manifold</arg>
+            <arg>-Amanifold.source.target=/Users/stevedavis/Downloads/manifold-src</arg>
+          </compilerArgs>
+          <!-- Add the processor path for the plugin -->
+          <annotationProcessorPaths>
+
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+
+            <path>
+              <groupId>systems.manifold</groupId>
+              <artifactId>manifold-preprocessor</artifactId>
+              <version>${manifold-version}</version>
+            </path>
+
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+
+
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -201,6 +244,22 @@
           </excludes>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>com.coveo</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <version>${fmt-maven-plugin.version}</version>
+        <configuration>
+          <displayFiles>true</displayFiles>
+          <verbose>true</verbose>
+          <filesNamePattern>.*\.java</filesNamePattern>
+          <additionalSourceDirectories/>
+          <skip>false</skip>
+          <skipSortingImports>false</skipSortingImports>
+          <style>google</style>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
