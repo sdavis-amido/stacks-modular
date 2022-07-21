@@ -210,7 +210,7 @@
           <compilerArgs>
             <!-- Configure manifold plugin -->
             <arg>-Xplugin:Manifold</arg>
-            <arg>-Amanifold.source.target=/Users/stevedavis/Downloads/manifold-src</arg>
+            <arg>-Amanifold.source.target=${env.MANIFOLD_SRC_LOCATION}</arg>
           </compilerArgs>
           <!-- Add the processor path for the plugin -->
           <annotationProcessorPaths>
