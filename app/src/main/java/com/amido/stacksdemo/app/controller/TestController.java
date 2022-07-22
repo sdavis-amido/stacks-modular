@@ -1,23 +1,23 @@
 package com.amido.stacksdemo.app.controller;
 
-#if CLOUD_TYPE_AZURE
+#if AZURE
 
 import com.amido.stacksdemo.azure.types.Azure;
-#elif CLOUD_TYPE_AWS
+#elif AWS
 import com.amido.stacksdemo.aws.types.AWS;
 #endif
 
-#if PERSISTENCE_TYPE_DYNAMODB
+#if DYNAMODB
 import com.amido.stacksdemo.dynamodb.types.DynamoDB;
-#elif PERSISTENCE_TYPE_COSMOSDB
+#elif COSMOSDB
 import com.amido.stacksdemo.cosmosdb.types.CosmosDB;
 #endif
 
-#if QUEUE_TYPE_SQS
+#if SQS
 import com.amido.stacksdemo.sqs.types.SQS;
-#elif QUEUE_TYPE_KAFKA
+#elif KAFKA
 import com.amido.stacksdemo.kafka.types.Kafka;
-#elif QUEUE_TYPE_SERVICEBUS
+#elif SERVICEBUS
 import com.amido.stacksdemo.servicebus.types.ServiceBus;
 #endif
 
@@ -33,29 +33,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-  #if CLOUD_TYPE_AZURE
+  #if AZURE
   @Autowired
   private Azure azure;
-  #elif CLOUD_TYPE_AWS
+  #elif AWS
   @Autowired
   private AWS aws;
   #endif
 
-  #if PERSISTENCE_TYPE_DYNAMODB
+  #if DYNAMODB
   @Autowired
   private DynamoDB dynamoDB;
-  #elif PERSISTENCE_TYPE_COSMOSDB
+  #elif COSMOSDB
   @Autowired
   private CosmosDB cosmosDB;
   #endif
 
-  #if QUEUE_TYPE_SQS
+  #if SQS
   @Autowired
   private SQS sqs;
-  #elif QUEUE_TYPE_KAFKA
+  #elif KAFKA
   @Autowired
   private Kafka kafka;
-  #elif QUEUE_TYPE_SERVICEBUS
+  #elif SERVICEBUS
   @Autowired
   private ServiceBus serviceBus;
   #endif
@@ -66,23 +66,23 @@ public class TestController {
   @GetMapping
   public ResponseEntity<String> test() {
 
-    #if CLOUD_TYPE_AWS
+    #if AWS
     aws.usingAWS();
-    #elif CLOUD_TYPE_AZURE
+    #elif AZURE
     azure.usingAzure();
     #endif
 
-    #if PERSISTENCE_TYPE_DYNAMODB
+    #if DYNAMODB
     dynamoDB.usingDynamoDB();
-    #elif PERSISTENCE_TYPE_COSMOSDB
+    #elif COSMOSDB
     cosmosDB.usingCosmosDB();
     #endif
 
-    #if QUEUE_TYPE_SQS
+    #if SQS
     sqs.sendUsingSqs();
-    #elif QUEUE_TYPE_KAFKA
+    #elif KAFKA
     kafka.sendUsingKafka();
-    #elif QUEUE_TYPE_SERVICEBUS
+    #elif SERVICEBUS
     serviceBus.sendUsingServiceBus();
     #endif
 

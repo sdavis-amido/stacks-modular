@@ -254,3 +254,23 @@ do
 done
 
 cp app/pom.template.xml app/pom.xml
+
+#####################
+
+export MANIFOLD_SRC_LOCATION=./app/src/main/java
+
+cd app || exit 1
+
+rm build.properties
+
+for i in "${CHECKED[@]}";
+do
+   echo "$i" |tr "[:lower:]" "[:upper:]" >> build.properties
+done
+
+mvn clean compile
+mvn com.coveo:fmt-maven-plugin:format
+
+cd - || exit 1
+
+#####################
