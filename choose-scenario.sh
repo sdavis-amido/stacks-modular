@@ -271,7 +271,7 @@ done
 mvn clean compile
 mvn com.coveo:fmt-maven-plugin:format
 
-cd - || exit 1
+cd .. || exit 1
 
 #####################
 
@@ -282,3 +282,9 @@ xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
       app/pom.xml > app/pom.template.xml.work
 
 mv app/pom.template.xml.work app/pom.xml
+
+#####################
+
+rm -f pom.template.xml
+rm -f build.properties
+
