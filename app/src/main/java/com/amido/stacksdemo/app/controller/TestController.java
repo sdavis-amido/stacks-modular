@@ -3,13 +3,13 @@ package com.amido.stacksdemo.app.controller;
 #if CLOUD_TYPE_AZURE
 
 import com.amido.stacksdemo.azure.types.Azure;
-#else
+#elif CLOUD_TYPE_AWS
 import com.amido.stacksdemo.aws.types.AWS;
 #endif
 
 #if PERSISTENCE_TYPE_DYNAMODB
 import com.amido.stacksdemo.dynamodb.types.DynamoDB;
-#else
+#elif PERSISTENCE_TYPE_COSMOSDB
 import com.amido.stacksdemo.cosmosdb.types.CosmosDB;
 #endif
 
@@ -17,7 +17,7 @@ import com.amido.stacksdemo.cosmosdb.types.CosmosDB;
 import com.amido.stacksdemo.sqs.types.SQS;
 #elif QUEUE_TYPE_KAFKA
 import com.amido.stacksdemo.kafka.types.Kafka;
-#else
+#elif QUEUE_TYPE_SERVICEBUS
 import com.amido.stacksdemo.servicebus.types.ServiceBus;
 #endif
 
@@ -36,11 +36,18 @@ public class TestController {
   #if CLOUD_TYPE_AZURE
   @Autowired
   private Azure azure;
-  #else
+  #elif CLOUD_TYPE_AWS
   @Autowired
   private AWS aws;
   #endif
 
+  #if PERSISTENCE_TYPE_DYNAMODB
+  @Autowired
+  private DynamoDB dynamoDB;
+  #elif PERSISTENCE_TYPE_COSMOSDB
+  @Autowired
+  private CosmosDB cosmosDB;
+  #endif
 
   #if QUEUE_TYPE_SQS
   @Autowired
@@ -48,17 +55,9 @@ public class TestController {
   #elif QUEUE_TYPE_KAFKA
   @Autowired
   private Kafka kafka;
-  #else
+  #elif QUEUE_TYPE_SERVICEBUS
   @Autowired
   private ServiceBus serviceBus;
-  #endif
-
-  #if PERSISTENCE_TYPE_DYNAMODB
-  @Autowired
-  private DynamoDB dynamoDB;
-  #else
-  @Autowired
-  private CosmosDB cosmosDB;
   #endif
 
   @Autowired
@@ -69,13 +68,13 @@ public class TestController {
 
     #if CLOUD_TYPE_AWS
     aws.usingAWS();
-    #else
+    #elif CLOUD_TYPE_AZURE
     azure.usingAzure();
     #endif
 
     #if PERSISTENCE_TYPE_DYNAMODB
     dynamoDB.usingDynamoDB();
-    #else
+    #elif PERSISTENCE_TYPE_COSMOSDB
     cosmosDB.usingCosmosDB();
     #endif
 
@@ -83,7 +82,7 @@ public class TestController {
     sqs.sendUsingSqs();
     #elif QUEUE_TYPE_KAFKA
     kafka.sendUsingKafka();
-    #else
+    #elif QUEUE_TYPE_SERVICEBUS
     serviceBus.sendUsingServiceBus();
     #endif
 
