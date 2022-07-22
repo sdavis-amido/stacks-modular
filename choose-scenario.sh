@@ -122,80 +122,108 @@ function delete_from_array {
 
 declare -a ALL_SPRING_PROFILES=(aws azure cosmosdb dynamodb servicebus kafka sqs)
 
-printf "\n"
+if [[ "$1" == "--interactive" ]]; then
 
-#####################
+  printf "\n"
 
-unset OPTIONS_STRING OPTIONS_SELECTED_STRING 
+  #####################
 
-printf "1. Please select the Cloud required:\n\n"
+  unset OPTIONS_STRING OPTIONS_SELECTED_STRING
 
-OPTIONS_VALUES=("azure" "aws")
-OPTIONS_LABELS=("Azure Cloud" "AWS Cloud")
-OPTIONS_SELECTED=("true" "")
+  printf "1. Please select the Cloud required:\n\n"
 
-for i in "${!OPTIONS_VALUES[@]}"; do
-	OPTIONS_STRING+="${OPTIONS_VALUES[$i]} (${OPTIONS_LABELS[$i]});"
-	OPTIONS_SELECTED_STRING+="${OPTIONS_SELECTED[$i]};"
-done
+  OPTIONS_VALUES=("azure" "aws")
+  OPTIONS_LABELS=("Azure Cloud" "AWS Cloud")
+  OPTIONS_SELECTED=("true" "")
 
-prompt_for_multiselect SELECTED "$OPTIONS_STRING" "$OPTIONS_SELECTED_STRING"
+  for i in "${!OPTIONS_VALUES[@]}"; do
+    OPTIONS_STRING+="${OPTIONS_VALUES[$i]} (${OPTIONS_LABELS[$i]});"
+    OPTIONS_SELECTED_STRING+="${OPTIONS_SELECTED[$i]};"
+  done
 
-for i in "${!SELECTED[@]}"; do
-	if [ "${SELECTED[$i]}" == "true" ]; then
-		CHECKED+=("${OPTIONS_VALUES[$i]}")
-    delete_from_array ALL_SPRING_PROFILES "${OPTIONS_VALUES[$i]}" "${ALL_SPRING_PROFILES[@]}"
-	fi
-done
-# echo "${CHECKED[@]}"
+  prompt_for_multiselect SELECTED "$OPTIONS_STRING" "$OPTIONS_SELECTED_STRING"
 
-#####################
+  for i in "${!SELECTED[@]}"; do
+    if [ "${SELECTED[$i]}" == "true" ]; then
+      CHECKED+=("${OPTIONS_VALUES[$i]}")
+      delete_from_array ALL_SPRING_PROFILES "${OPTIONS_VALUES[$i]}" "${ALL_SPRING_PROFILES[@]}"
+    fi
+  done
+  # echo "${CHECKED[@]}"
 
-unset OPTIONS_STRING OPTIONS_SELECTED_STRING 
+  #####################
 
-printf "2. Please select the Persistence required:\n\n"
+  unset OPTIONS_STRING OPTIONS_SELECTED_STRING
 
-OPTIONS_VALUES=("cosmosdb" "dynamodb")
-OPTIONS_LABELS=("CosmosDB" "DynamoDB")
-OPTIONS_SELECTED=("true" "")
+  printf "2. Please select the Persistence required:\n\n"
 
-for i in "${!OPTIONS_VALUES[@]}"; do
-	OPTIONS_STRING+="${OPTIONS_VALUES[$i]} (${OPTIONS_LABELS[$i]});"
-	OPTIONS_SELECTED_STRING+="${OPTIONS_SELECTED[$i]};"
-done
+  OPTIONS_VALUES=("cosmosdb" "dynamodb")
+  OPTIONS_LABELS=("CosmosDB" "DynamoDB")
+  OPTIONS_SELECTED=("true" "")
 
-prompt_for_multiselect SELECTED "$OPTIONS_STRING" "$OPTIONS_SELECTED_STRING"
+  for i in "${!OPTIONS_VALUES[@]}"; do
+    OPTIONS_STRING+="${OPTIONS_VALUES[$i]} (${OPTIONS_LABELS[$i]});"
+    OPTIONS_SELECTED_STRING+="${OPTIONS_SELECTED[$i]};"
+  done
 
-for i in "${!SELECTED[@]}"; do
-	if [ "${SELECTED[$i]}" == "true" ]; then
-		CHECKED+=("${OPTIONS_VALUES[$i]}")
-    delete_from_array ALL_SPRING_PROFILES "${OPTIONS_VALUES[$i]}" "${ALL_SPRING_PROFILES[@]}"
-	fi
-done
+  prompt_for_multiselect SELECTED "$OPTIONS_STRING" "$OPTIONS_SELECTED_STRING"
 
-#####################
+  for i in "${!SELECTED[@]}"; do
+    if [ "${SELECTED[$i]}" == "true" ]; then
+      CHECKED+=("${OPTIONS_VALUES[$i]}")
+      delete_from_array ALL_SPRING_PROFILES "${OPTIONS_VALUES[$i]}" "${ALL_SPRING_PROFILES[@]}"
+    fi
+  done
 
-unset OPTIONS_STRING OPTIONS_SELECTED_STRING
+  #####################
 
-printf "3. Please select the Message Handler required:\n\n"
+  unset OPTIONS_STRING OPTIONS_SELECTED_STRING
 
-OPTIONS_VALUES=("servicebus" "kafka" "sqs")
-OPTIONS_LABELS=("Azure ServiceBus" "AWS Kafka" "AWS SQS")
-OPTIONS_SELECTED=("true" "" "")
+  printf "3. Please select the Message Handler required:\n\n"
 
-for i in "${!OPTIONS_VALUES[@]}"; do
-	OPTIONS_STRING+="${OPTIONS_VALUES[$i]} (${OPTIONS_LABELS[$i]});"
-	OPTIONS_SELECTED_STRING+="${OPTIONS_SELECTED[$i]};"
-done
+  OPTIONS_VALUES=("servicebus" "kafka" "sqs")
+  OPTIONS_LABELS=("Azure ServiceBus" "AWS Kafka" "AWS SQS")
+  OPTIONS_SELECTED=("true" "" "")
 
-prompt_for_multiselect SELECTED "$OPTIONS_STRING" "$OPTIONS_SELECTED_STRING"
+  for i in "${!OPTIONS_VALUES[@]}"; do
+    OPTIONS_STRING+="${OPTIONS_VALUES[$i]} (${OPTIONS_LABELS[$i]});"
+    OPTIONS_SELECTED_STRING+="${OPTIONS_SELECTED[$i]};"
+  done
 
-for i in "${!SELECTED[@]}"; do
-	if [ "${SELECTED[$i]}" == "true" ]; then
-		CHECKED+=("${OPTIONS_VALUES[$i]}")
-    delete_from_array ALL_SPRING_PROFILES "${OPTIONS_VALUES[$i]}" "${ALL_SPRING_PROFILES[@]}"
-	fi
-done
+  prompt_for_multiselect SELECTED "$OPTIONS_STRING" "$OPTIONS_SELECTED_STRING"
+
+  for i in "${!SELECTED[@]}"; do
+    if [ "${SELECTED[$i]}" == "true" ]; then
+      CHECKED+=("${OPTIONS_VALUES[$i]}")
+      delete_from_array ALL_SPRING_PROFILES "${OPTIONS_VALUES[$i]}" "${ALL_SPRING_PROFILES[@]}"
+    fi
+  done
+
+else
+
+  printf "\nUsing build.properties inputs.\n\n"
+
+  # IFS=$'\n' read -d '' -r BUILD_PROPERTIES_LINES < app/build.properties
+
+  BUILD_PROPERTIES_LINES=()
+  while IFS= read -r line; do
+     BUILD_PROPERTIES_LINES+=("$line")
+  done < app/build.properties
+
+  for i in "${BUILD_PROPERTIES_LINES[@]}";
+  do
+
+    SUB="#"
+    if [[ "${i}" =~ .*"$SUB".* ]]; then
+      : # Skip as it's hashed
+    else
+      BUILD_OPTION=$(echo "${i}" | sed 's/=//g' | tr "[:upper:]" "[:lower:]")
+      CHECKED+=("${BUILD_OPTION}")
+    fi
+
+  done
+
+fi
 
 #####################
 
