@@ -257,6 +257,16 @@ cp app/pom.template.xml app/pom.xml
 
 #####################
 
+xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
+      --delete ".//ns:project/ns:properties/ns:manifold-version" \
+      --delete ".//ns:project/ns:build/ns:plugins/ns:plugin[ns:artifactId=\"maven-compiler-plugin\"]/ns:configuration/ns:compilerArgs" \
+      --delete ".//ns:project/ns:build/ns:plugins/ns:plugin[ns:artifactId=\"maven-compiler-plugin\"]/ns:configuration/ns:annotationProcessorPaths/ns:path[ns:groupId=\"systems.manifold\"]" \
+      app/pom.xml > app/pom.template.xml.work
+
+mv app/pom.template.xml.work app/pom.xml
+
+#####################
+
 export MANIFOLD_SRC_LOCATION=./src/main/java
 
 cd app || exit 1
