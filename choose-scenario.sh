@@ -265,7 +265,7 @@ rm build.properties
 
 for i in "${CHECKED[@]}";
 do
-   echo "$i" |tr "[:lower:]" "[:upper:]" >> build.properties
+   echo "${i}=" |tr "[:lower:]" "[:upper:]" >> build.properties
 done
 
 mvn clean compile
