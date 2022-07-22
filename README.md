@@ -83,6 +83,28 @@ Field dataPersister in com.amido.stacksdemo.app.controller.TestController requir
 
 # Configuring (hard-coding) for a Project
 
+## If running the "manifold-preprocess" branch...
+
+This branch uses the `manifold-preprocessor` library to support pre-processing à la C# .Net.
+
+All options for the code are driven by switches enabled in the `build.properties` file.
+
+```
+$ sh choose-scenario.sh
+
+You have selected these options for your project:
+
+   * aws
+   * dynamodb
+   * sqs
+
+Press ENTER to accept or CTRL-C to quit
+```
+
+You can now jump to the bottom of the next section and continue...
+
+## If running the main branch...
+
 This is to cater for scenarios where a project wants to take the current codebase and "hard code" it
 so that only the options they want to use are provided.
 
