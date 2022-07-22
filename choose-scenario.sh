@@ -257,7 +257,7 @@ cp app/pom.template.xml app/pom.xml
 
 #####################
 
-export MANIFOLD_SRC_LOCATION=./app/src/main/java
+export MANIFOLD_SRC_LOCATION=./src/main/java
 
 cd app || exit 1
 
