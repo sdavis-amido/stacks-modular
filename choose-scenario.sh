@@ -219,6 +219,7 @@ else
     else
       BUILD_OPTION=$(echo "${i}" | sed 's/=//g' | tr "[:upper:]" "[:lower:]")
       CHECKED+=("${BUILD_OPTION}")
+      delete_from_array ALL_SPRING_PROFILES "${BUILD_OPTION}" "${ALL_SPRING_PROFILES[@]}"
     fi
 
   done
