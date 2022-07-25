@@ -1,10 +1,10 @@
 package com.amido.stacksdemo.app.controller;
 
+
 #if AZURE
 
 import com.amido.stacksdemo.azure.types.Azure;
 #elif AWS
-import com.amido.stacksdemo.app.repository.AppRepository;
 import com.amido.stacksdemo.aws.types.AWS;
 #endif
 
@@ -24,6 +24,7 @@ import com.amido.stacksdemo.servicebus.types.ServiceBus;
 #endif
 
 import com.amido.stacksdemo.commons.types.CommonStuff;
+import com.amido.stacksdemo.app.repository.AppRepository;
 
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
