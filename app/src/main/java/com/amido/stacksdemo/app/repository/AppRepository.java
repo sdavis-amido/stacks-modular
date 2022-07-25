@@ -2,12 +2,11 @@ package com.amido.stacksdemo.app.repository;
 
 
 #if DYNAMODB
-import com.amido.stacksdemo.cosmosdb.types.StacksCosmosRepository;
+import com.amido.stacksdemo.dynamodb.types.StacksDynamoDBRepository;
 #elif COSMOSDB
 import com.amido.stacksdemo.cosmosdb.types.StacksCosmosRepository;
 #endif
 
-import com.amido.stacksdemo.dynamodb.types.StacksDynamoDBRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
