@@ -1,6 +1,8 @@
 package com.amido.stacksdemo.app.controller;
 
 
+import com.amido.stacksdemo.app.repository.AppDatabaseRepository;
+
 #if AZURE
 
 import com.amido.stacksdemo.azure.types.Azure;
@@ -24,7 +26,6 @@ import com.amido.stacksdemo.servicebus.types.ServiceBus;
 #endif
 
 import com.amido.stacksdemo.commons.types.CommonStuff;
-import com.amido.stacksdemo.app.repository.AppRepository;
 
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +72,7 @@ public class TestController {
   private CommonStuff commonStuff;
 
   @Autowired
-  private AppRepository appRepository;
+  private AppDatabaseRepository appDatabaseRepository;
 
   @GetMapping
   public ResponseEntity<String> test() {
@@ -91,10 +92,10 @@ public class TestController {
 
     #if DYNAMODB
     dynamoDB.usingDynamoDB();
-    appRepository.useDynamoDB(log);
+    appDatabaseRepository.useDynamoDB(log);
     #elif COSMOSDB
     cosmosDB.usingCosmosDB();
-    appRepository.useCosmos(log);
+    appDatabaseRepository.useCosmos(log);
     #endif
 
     #if SQS
