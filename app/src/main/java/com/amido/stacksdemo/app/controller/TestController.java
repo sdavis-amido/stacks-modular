@@ -17,7 +17,6 @@ import com.amido.stacksdemo.cosmosdb.types.CosmosDB;
 #endif
 
 #if SQS
-import com.amido.stacksdemo.dynamodb.types.StacksDynamoDBRepository;
 import com.amido.stacksdemo.sqs.types.SQS;
 #elif KAFKA
 import com.amido.stacksdemo.kafka.types.Kafka;
