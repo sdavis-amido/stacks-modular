@@ -4,6 +4,7 @@ package com.amido.stacksdemo.app.controller;
 
 import com.amido.stacksdemo.azure.types.Azure;
 #elif AWS
+import com.amido.stacksdemo.app.repository.AppRepository;
 import com.amido.stacksdemo.aws.types.AWS;
 #endif
 
@@ -14,6 +15,7 @@ import com.amido.stacksdemo.cosmosdb.types.CosmosDB;
 #endif
 
 #if SQS
+import com.amido.stacksdemo.dynamodb.types.StacksDynamoDBRepository;
 import com.amido.stacksdemo.sqs.types.SQS;
 #elif KAFKA
 import com.amido.stacksdemo.kafka.types.Kafka;
@@ -23,6 +25,8 @@ import com.amido.stacksdemo.servicebus.types.ServiceBus;
 
 import com.amido.stacksdemo.commons.types.CommonStuff;
 
+import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/test")
 @RestController
+@Slf4j
 public class TestController {
 
   #if AZURE
@@ -44,6 +49,7 @@ public class TestController {
   #if DYNAMODB
   @Autowired
   private DynamoDB dynamoDB;
+
   #elif COSMOSDB
   @Autowired
   private CosmosDB cosmosDB;
@@ -63,8 +69,18 @@ public class TestController {
   @Autowired
   private CommonStuff commonStuff;
 
+  @Autowired
+  private AppRepository appRepository;
+
   @GetMapping
   public ResponseEntity<String> test() {
+    execute();
+
+    return ResponseEntity.ok("ACK");
+  }
+
+  @PostConstruct
+  public void execute() {
 
     #if AWS
     aws.usingAWS();
@@ -74,8 +90,10 @@ public class TestController {
 
     #if DYNAMODB
     dynamoDB.usingDynamoDB();
+    appRepository.useDynamoDB(log);
     #elif COSMOSDB
     cosmosDB.usingCosmosDB();
+    appRepository.useCosmos(log);
     #endif
 
     #if SQS
@@ -86,6 +104,5 @@ public class TestController {
     serviceBus.sendUsingServiceBus();
     #endif
 
-    return ResponseEntity.ok("ACK");
   }
 }
