@@ -73,11 +73,9 @@
 
     <profile>
       <id>aws</id>
-      <!--
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      -->
       <properties>
         <aws.profile.name>aws</aws.profile.name>
       </properties>
@@ -107,11 +105,9 @@
 
     <profile>
       <id>cosmosdb</id>
-      <!--
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      -->
       <properties>
         <cosmosdb.profile.name>cosmosdb</cosmosdb.profile.name>
       </properties>
@@ -140,11 +136,9 @@
 
     <profile>
       <id>servicebus</id>
-      <!--
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      -->
       <properties>
         <servicebus.profile.name>servicebus</servicebus.profile.name>
       </properties>
