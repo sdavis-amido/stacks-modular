@@ -77,7 +77,9 @@
     <profile>
       <id>aws</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <file>
+          <exists>.</exists>
+        </file>
       </activation>
       <properties>
         <aws.profile.name>aws</aws.profile.name>
@@ -94,7 +96,9 @@
     <profile>
       <id>azure</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <file>
+          <exists>.</exists>
+        </file>
       </activation>
       <properties>
         <azure.profile.name>azure</azure.profile.name>
@@ -112,7 +116,9 @@
     <profile>
       <id>cosmosdb</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <file>
+          <exists>.</exists>
+        </file>
       </activation>
       <properties>
         <cosmosdb.profile.name>cosmosdb</cosmosdb.profile.name>
@@ -129,7 +135,9 @@
     <profile>
       <id>dynamodb</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <file>
+          <exists>.</exists>
+        </file>
       </activation>
       <properties>
         <dynamodb.profile.name>dynamodb</dynamodb.profile.name>
@@ -146,7 +154,9 @@
     <profile>
       <id>servicebus</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <file>
+          <exists>.</exists>
+        </file>
       </activation>
       <properties>
         <servicebus.profile.name>servicebus</servicebus.profile.name>
@@ -163,7 +173,9 @@
     <profile>
       <id>kafka</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <file>
+          <exists>.</exists>
+        </file>
       </activation>
       <properties>
         <kafka.profile.name>kafka</kafka.profile.name>
@@ -180,7 +192,9 @@
     <profile>
       <id>sqs</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <file>
+          <exists>.</exists>
+        </file>
       </activation>
       <properties>
         <sqs.profile.name>sqs</sqs.profile.name>
