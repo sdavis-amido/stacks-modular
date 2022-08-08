@@ -1,19 +1,20 @@
 package com.amido.stacksdemo.app.controller;
 
 
-import com.amido.stacksdemo.app.repository.AppDatabaseRepository;
-
 #if AZURE
 
 import com.amido.stacksdemo.azure.types.Azure;
 #elif AWS
+
 import com.amido.stacksdemo.aws.types.AWS;
 #endif
 
 #if DYNAMODB
 import com.amido.stacksdemo.dynamodb.types.DynamoDB;
+import com.amido.stacksdemo.dynamodb.types.StacksDynamoDBRepository;
 #elif COSMOSDB
 import com.amido.stacksdemo.cosmosdb.types.CosmosDB;
+import com.amido.stacksdemo.cosmosdb.types.StacksCosmosRepository;
 #endif
 
 #if SQS
@@ -70,8 +71,14 @@ public class TestController {
   @Autowired
   private CommonStuff commonStuff;
 
+  #if DYNAMODB
   @Autowired
-  private AppDatabaseRepository appDatabaseRepository;
+  private StacksDynamoDBRepository<String> dynamoDBrepository;
+
+  #elif COSMOSDB
+  @Autowired
+  private StacksCosmosRepository<String> cosmosDBrepository;
+  #endif
 
   @GetMapping
   public ResponseEntity<String> test() {
@@ -91,10 +98,10 @@ public class TestController {
 
     #if DYNAMODB
     dynamoDB.usingDynamoDB();
-    appDatabaseRepository.useDynamoDB(log);
+    dynamoDBrepository.useDynamoDB(log);
     #elif COSMOSDB
     cosmosDB.usingCosmosDB();
-    appDatabaseRepository.useCosmos(log);
+    cosmosDBrepository.useCosmos(log);
     #endif
 
     #if SQS

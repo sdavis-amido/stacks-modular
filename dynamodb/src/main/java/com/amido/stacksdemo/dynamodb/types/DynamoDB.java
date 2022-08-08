@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class DynamoDB {
+public class DynamoDB implements StacksDynamoDBRepository<String> {
 
   public void usingDynamoDB() {
     log.debug("PERSIST USING DYNAMODB");

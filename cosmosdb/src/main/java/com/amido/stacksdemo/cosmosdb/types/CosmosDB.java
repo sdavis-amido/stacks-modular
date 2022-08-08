@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class CosmosDB {
+public class CosmosDB implements StacksCosmosRepository<String> {
 
   public void usingCosmosDB() {
     log.debug("PERSIST USING COSMOSDB");
