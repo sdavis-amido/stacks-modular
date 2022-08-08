@@ -254,7 +254,7 @@ do
 
    mv app/pom.template.xml.work app/pom.template.xml
 
-   sed -i "" "/- @${i}.profile.name@/d" app/src/main/resources/application.yml
+   sed -i "" "/- \"@${i}.profile.name@\"/d" app/src/main/resources/application.yml
 
    rm -f "app/src/main/resources/application-${i}.yml"
 
@@ -278,7 +278,7 @@ do
 
    mv app/pom.template.xml.work app/pom.template.xml
 
-   sed -i "" "s/- @${i}.profile.name@/- ${i}/g" app/src/main/resources/application.yml
+   sed -i "" "s/- \"@${i}.profile.name@\"/- ${i}/g" app/src/main/resources/application.yml
 
 done
 
