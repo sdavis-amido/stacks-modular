@@ -23,7 +23,7 @@
     <java.version>11</java.version>
 
     <fmt-maven-plugin.version>2.13</fmt-maven-plugin.version>
-    <manifold-version>2022.1.18</manifold-version>
+    <manifold-version>2022.1.19</manifold-version>
 
     <aws.profile.name>no-aws</aws.profile.name>
     <azure.profile.name>no-azure</azure.profile.name>
