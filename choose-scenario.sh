@@ -286,9 +286,9 @@ cp app/pom.template.xml app/pom.xml
 
 #####################
 
-export MANIFOLD_SRC_LOCATION=./src/main/java
-
 cd app || exit 1
+
+export MANIFOLD_SRC_LOCATION=.
 
 rm build.properties
 
@@ -297,8 +297,46 @@ do
    echo "${i}=" |tr "[:lower:]" "[:upper:]" >> build.properties
 done
 
-mvn clean compile
-mvn com.coveo:fmt-maven-plugin:format
+cd src/main/java || exit 1
+
+mvn -f ../../../pom.xml clean compile
+
+cd ../../../.. || exit 1
+
+#####################
+
+mv app/src/main/java app/src/main/java.SAV
+
+#####################
+
+cd app || exit 1
+
+export MANIFOLD_SRC_LOCATION=.
+
+rm build.properties
+
+for i in "${CHECKED[@]}";
+do
+   echo "${i}=" |tr "[:lower:]" "[:upper:]" >> build.properties
+done
+
+cd src/test/java || exit 1
+
+mvn -f ../../../pom.xml test-compile
+
+cd ../../../.. || exit 1
+
+#####################
+
+rm -rf app/src/main/java
+
+mv app/src/main/java.SAV app/src/main/java
+
+#####################
+
+cd app || exit 1
+
+mvn -DskipTests=true com.coveo:fmt-maven-plugin:format
 
 cd .. || exit 1
 
@@ -317,4 +355,4 @@ rm -f app/build.properties
 
 #####################
 
-
+unset MANIFOLD_SRC_LOCATION
