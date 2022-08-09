@@ -1,13 +1,17 @@
 package com.amido.stacksdemo.app.controller;
 
-import com.amido.stacksdemo.cosmosdb.types.CosmosDB;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
+
+#if DYNAMODB
+import com.amido.stacksdemo.dynamodb.types.DynamoDB;
+import com.amido.stacksdemo.dynamodb.types.StacksDynamoDBRepository;
+#elif COSMOSDB
+import com.amido.stacksdemo.cosmosdb.types.CosmosDB;
+import com.amido.stacksdemo.cosmosdb.types.StacksCosmosRepository;
+#endif
 
 @Tag("unit")
 @SpringBootTest
